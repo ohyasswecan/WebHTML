@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+    <script>
+        var button = document.querySelector('.button');
+        var date = document.querySelector('.date');
+        var time = document.querySelector('.time');
+
+        button.addEventListener('click', function()
+        {
+            //the pro.openweathermap does not work
+            fetch('http://api.openweathermap.org/data/2.5/forecast?lat=-45.029&lon=168.6765&appid=f8c9aac9b766fb3e34e138893ffecdb4')
+            .then(response => response.json())
+            .then(data => console.log(data))
+        .catch(err => alert("error"))
+        })
+    </script>
+</head>
+<body>
+    <h1>Date Weather check</h1>
+  <div>  <input type="date">
+    <select id="time">
+        <option value="10AM">10AM</option>
+        <option value="2PM">2PM</option>
+    </select>
+</div>
+    <div><button type="button">confirm</button></div>
+</body>
