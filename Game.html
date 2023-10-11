@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" height ="100%">
+  <head>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Game</title>
+    <style>
+        body, html {
+            margin: 10px;
+            overflow: hidden;
+            width:100%;
+            height:100%;
+        }
+
+        canvas {
+            display: block;
+            border:2px solid black;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas"></canvas>
+
+    <script>
+        // Set canvas dimensions to match the viewport
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        
+            // Your drawing code here
+            // For example, draw a red rectangle covering the entire canvas
+            ctx.fillStyle = "red";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    </script>
+  </body>
+</html>
