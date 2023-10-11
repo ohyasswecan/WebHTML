@@ -263,9 +263,40 @@
       <div class="grid-item"><button id="NRR13C3" type="button" class="block" title="seat unoccupied"></button></div>
       <div class="grid-item"></div>
     </div>
+    <button>Confirm</button>
   </div>
 
   <script>
+    var blocks = document.getElementsByClassName("block");
+
+for (var b = 0; b < blocks.length; b++) {
+    blocks[b].addEventListener("click", createClickListener(blocks[b]));
+}
+
+function createClickListener(block) {
+  var availability = true;
+    return function() {
+        for (var i = 0; i < bookedSeats.length; i++) {
+            if (bookedSeats[i].id === block.id) {
+              availability = false;
+                alert("This seat is already booked by other people.");
+            }
+        }
+
+        for (var i = 0; i < bookingSeats.length; i++) {
+            if (bookingSeats[i].id === block.id) {
+              availability = false;
+                alert("You already booked this seat.");
+            }
+        }
+
+        if(availability){
+          bookingSeats.push(new Seats(block.id, true));
+          block.style.backgroundColor = "#2196F3";
+        }
+    };
+}
+
 
     function Seats(id, bookCondition) {
       this.id = id;
