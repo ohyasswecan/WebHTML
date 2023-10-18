@@ -1,27 +1,103 @@
 <!DOCTYPE html>
+
 <head>
     <script>
         var button = document.querySelector('.button');
         var date = document.querySelector('.date');
         var time = document.querySelector('.time');
+        /*
+                button.addEventListener('click', function()
+                {
+                    //the pro.openweathermap does not work
+                    fetch('http://api.openweathermap.org/data/2.5/forecast?lat=-45.029&lon=168.6765&appid=f8c9aac9b766fb3e34e138893ffecdb4')
+                    .then(response => response.json())
+                    .then(data => console.log(data))
+                .catch(err => alert("error"))
+                });
+        */
+        function onload() {
+            var button = document.querySelector('button');
+            var dateInput = document.querySelector('input[type="date"]');
+            var timeSelect = document.getElementById('time');
 
-        button.addEventListener('click', function()
-        {
-            //the pro.openweathermap does not work
-            fetch('http://api.openweathermap.org/data/2.5/forecast?lat=-45.029&lon=168.6765&appid=f8c9aac9b766fb3e34e138893ffecdb4')
-            .then(response => response.json())
-            .then(data => console.log(data))
-        .catch(err => alert("error"))
-        })
+            // Get current system date as a Date object
+            var today = new Date();
+
+            // Set the minimum date for the input to today
+            var minDate = today.toISOString().split('T')[0];
+            dateInput.setAttribute('min', minDate);
+
+            // Set the maximum date for the input to 5 days from today
+            var maxDate = new Date(today);
+            maxDate.setUTCDate(today.getUTCDate() + 5);
+            var maxDateStr = maxDate.toISOString().split('T')[0];
+            dateInput.setAttribute('max', maxDateStr);
+
+
+            button.addEventListener('click', function () {
+                var selectedDate = dateInput.value;
+                var selectedTime = timeSelect.value;
+
+                // Construct the API request URL using selected date and time
+                var apiUrl = 'http://api.openweathermap.org/data/2.5/forecast?lat=-45.029&lon=168.6765&appid=f8c9aac9b766fb3e34e138893ffecdb4';
+
+                // Make the API call
+                fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        var isMatch = isWeatherMatch(selectedDate, selectedTime, data);
+                        if (isMatch) {
+                            alert("Nice weather, booking success");
+                            window.location.href = "BookBoat.html?date="+selectedDate+"&time="+selectedTime;
+                        } else {
+                            alert("Weather forecast doesn't match the selected date and time.");
+                        }
+                    })
+                    .catch(err => alert("Error fetching weather data"));
+            });
+        }
+
+        function isWeatherMatch(selectedDate, selectedTime, weatherData) {
+
+            for (var i = 0; i < weatherData.list.length; i++) {
+                var data = weatherData.list[i];
+                var dtTxt = data.dt_txt;
+
+                if (dtTxt.includes(selectedDate) && dtTxt.includes(selectedTime)) {
+                    var temperature = data.main.temp;
+                    var weatherDescription = data.weather[0].description;
+                    var humidity = data.main.humidity;
+
+                    console.log("Temperature: " + temperature + " K");
+                    document.getElementsByTagName("date")[0].innerText = temperature;
+                    console.log("Weather Description: " + weatherDescription);
+                    document.getElementsByTagName("weatherDescription")[0].innerText = weatherDescription;
+                    console.log("Humidity: " + humidity + "%");
+                    document.getElementsByTagName("humidity")[0].innerText = humidity;
+
+                    if (temperature > 280 && humidity < 99) {
+                        return true; // Weather matches the criteria
+                    } else {
+                        return false; // Weather does not match the criteria
+                    }
+                }
+            }
+            //Return false if no matching weather data is found
+            return false; 
+        }
     </script>
 </head>
-<body>
+
+<body onload="onload()">
     <h1>Date Weather check</h1>
-  <div>  <input type="date">
-    <select id="time">
-        <option value="10AM">10AM</option>
-        <option value="2PM">2PM</option>
-    </select>
-</div>
+    <div> <input type="date">
+        <select id="time">
+            <option value="09:00">10AM</option>
+            <option value="01:00">2PM</option>
+        </select>
+    </div>
+    <div><label>Date:</label><date></date></div>
+    <div><label>Weather:</label><weatherDescription></weatherDescription></div>
+    <div><label>humidity:</label><humidity></humidity></div>
     <div><button type="button">confirm</button></div>
 </body>
