@@ -48,7 +48,9 @@
                         var isMatch = isWeatherMatch(selectedDate, selectedTime, data);
                         if (isMatch) {
                             alert("Nice weather, booking success");
-                            window.location.href = "BookBoat.html?date="+selectedDate+"&time="+selectedTime;
+                            const params = new URLSearchParams(window.location.search);
+                            const GuestNum = params.get("GuestNum");
+                            window.location.href = "BookBoat.html?GuestNum="+GuestNum+"&date="+selectedDate+"&time="+selectedTime;
                         } else {
                             alert("Weather forecast doesn't match the selected date and time.");
                         }
@@ -69,11 +71,11 @@
                     var humidity = data.main.humidity;
 
                     console.log("Temperature: " + temperature + " K");
-                    document.getElementsByTagName("date")[0].innerText = temperature;
+                    document.getElementsByTagName("date")[0].innerText = temperature-263 +" celsius";
                     console.log("Weather Description: " + weatherDescription);
                     document.getElementsByTagName("weatherDescription")[0].innerText = weatherDescription;
                     console.log("Humidity: " + humidity + "%");
-                    document.getElementsByTagName("humidity")[0].innerText = humidity;
+                    document.getElementsByTagName("humidity")[0].innerText = humidity + "%";
 
                     if (temperature > 280 && humidity < 99) {
                         return true; // Weather matches the criteria

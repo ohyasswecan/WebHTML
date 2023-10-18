@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Guest Number</title>
+</head>
+
+<body>
+    <h1>Guest Number</h1>
+    <input id="GuestNum" type="number" min="1" />
+    <br>
+    <button type="button" onclick="passNum()">Submit</button>
+    <script>
+        function passNum() 
+        {
+            var GuestNum =Number(document.getElementById("GuestNum").value);
+            if(GuestNum>0)
+            {
+                window.location.href="weatherCheck.html?GuestNum="+GuestNum;
+            }
+            
+        }
+    </script>
+</body>

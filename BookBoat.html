@@ -43,7 +43,7 @@
 
 </head>
 
-<body onload="httpRequest(); show_products();">
+<body onload="httpRequest()">
   <div class="base-template">
 
     <div class="grid-container Tere Left">
@@ -263,22 +263,36 @@
       <div class="grid-item"><button id="NRR13C3" type="button" class="block" title="seat unoccupied"></button></div>
       <div class="grid-item"></div>
     </div>
-    <div>
-      <table id="dispProduct"></table>
-    </div>
     <br>
-    <button onclick="calculate_cost()">Display Invoice</button>
-    <br>
-    <a id="Invoice"></a>
-    <button>Confirm</button>
+    <button onclick="calculate_cost()">Confirm</button>
   </div>
 
   <script>
+    function saveXMLData() {
+      const xmlData = '<data>hello</data>'; // XML data to be sent
+
+      fetch('http://localhost:3000/save', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ xmlData }),
+      })
+        .then(response => response.text())
+        .then(data => {
+          console.log(data); // Server response message
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
     var blocks = document.getElementsByClassName("block");
 
     for (var b = 0; b < blocks.length; b++) {
       blocks[b].addEventListener("click", createClickListener(blocks[b]));
+      blocks[b].title = blocks[b].id
     }
+
 
     function createClickListener(block) {
       var availability = true;
@@ -300,6 +314,7 @@
         if (availability) {
           bookingSeats.push(new Seats(block.id, true));
           block.style.backgroundColor = "#2196F3";
+          block.title = block.id + ' Current Booking';
         }
       };
     }
@@ -380,80 +395,39 @@
       for (update = 0; update < bookedSeats.length; update++) {
         var block = document.getElementById(bookedSeats[update].id);
         block.style.backgroundColor = "#2196F3";
+        block.title = block.id + ' Registered book';
       }
     }
 
+    function writeChange() {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.open("PUT", "http://localhost:3000/save", true); // Use the correct URL
 
+  // Set the Content-Type header
+  xmlhttp.setRequestHeader("Content-Type", "application/json");
 
+  // Create XML data
+  var xmlData = '<data>new xml string</data>';
 
+  // Send the PUT request with XML data as JSON
+  xmlhttp.send(JSON.stringify({ xmlData: xmlData }));
 
-
-
-    function product(productName, price, type, description, image) {
-      this.productName = productName;
-      this.price = price;
-      this.image = image;
-      this.type = type;
-      this.description = description;
-    }
-
-    var prod1 = new product('milk', 5, 'drink', 'gluten free milk', 'milk.jpg');
-    var prod2 = new product('cornflake', 10, 'food', 'contains gluten', 'cornflake.jpg');
-    var prod3 = new product('soda', 2, 'food', 'gluten free', 'soda.jpg');
-    var prod4 = new product('bread', 8, 'food', 'contains gluten', 'bread.jpg');
-    var prod5 = new product('butter', 2, 'additive', 'health rate 2.3 star', 'butter.jpg');
-    var prod6 = new product('agria potatoes', 20, 'food', 'contains gluten', 'agria_potatoes.jpg');
-    var products = [prod1, prod2, prod3, prod4, prod5, prod6];
-
-
-    var pName = '';
-    var pPrice = 0;
-    var pImage = '';
-    function show_products() {
-      var displaytext = '';
-      var table = document.getElementById('dispProduct');
-      for (var i = 0; i < products.length; i++) {
-        var row = table.insertRow(i);
-        var cell1 = row.insertCell(0);
-        var cell2 = row.insertCell(1);
-        var cell3 = row.insertCell(2);
-        var cell4 = row.insertCell(3);
-        var cell5 = row.insertCell(4);
-        var cell6 = row.insertCell(5);
-
-        cellName = 's' + i;
-        cell5.setAttribute("name", cellName);
-        cell1.innerHTML = products[i].productName;
-        cell2.innerHTML = '$' + products[i].price;
-        cell3.innerHTML = products[i].type;
-        cell4.innerHTML = '<img src="images/' + products[i].image + '" />';
-        cell5.innerHTML = products[i].description;
-
-
-        var checkbox = document.createElement("input");
-        var cname = 'ch' + i;
-        checkbox.setAttribute("type", "checkbox");
-        checkbox.setAttribute("name", i);
-        checkbox.setAttribute("id", cname);
-        checkbox.setAttribute("value", products[i].price);
-        checkbox.checked = false;
-        checkbox.setAttribute('onClick', 'myChange(this.value, this.name)');
-        cell6.appendChild(checkbox);
-
-        var cellName6 = 'ss' + i;
-        cell6.setAttribute('name', cellName6);
-        var quantityInput = document.createElement('input');
-        var qname = 'q' + i;
-        quantityInput.setAttribute('type', 'number');
-        quantityInput.setAttribute('name', qname);
-        quantityInput.setAttribute('id', qname);
-        quantityInput.setAttribute('style', 'width:35px;');
-        quantityInput.setAttribute('min', 0);
-        cell6.appendChild(quantityInput);
-
-        //var cell6
+  xmlhttp.onreadystatechange = function () {
+    if (xmlhttp.readyState == 4) {
+      if (xmlhttp.status == 200) {
+        alert("PUT request successful");
+      } else {
+        alert("PUT request failed with status: " + xmlhttp.status);
       }
     }
+  };
+}
+
+
+
+
+
+
     function calculate_cost() {
       var result = '';
       var ncheckbox = '';
@@ -462,77 +436,50 @@
       if (bookingSeats.length == 0) {
         return alert("You must book seat first");
       }
-      var totalorder = 0;
-      for (var i = 0; i < products.length; i++) {
-        ncheckbox = 'ch' + i;
-        qinput = 'q' + i;
-        var x = document.getElementById(ncheckbox);
-        if (document.getElementById(ncheckbox).checked) {
-          totalorder += Number(document.getElementById(qinput).value);
+     
+      var bookingSeatsList = '';
+      for (b = 0; b < bookingSeats.length; b++) {
+        bookingSeatsList += bookingSeats[b].id + ',';
+        if (bookingSeats[b].id.includes('TLR1') ||
+          bookingSeats[b].id.includes('TRR1') ||
+          bookingSeats[b].id.includes('NLR1') ||
+          bookingSeats[b].id.includes('NRR1')
+          ||
+          bookingSeats[b].id.includes('TLR2') ||
+          bookingSeats[b].id.includes('TRR2') ||
+          bookingSeats[b].id.includes('NLR2') ||
+          bookingSeats[b].id.includes('NRR2')) {
+          total += 30;
         }
-      }
-
-      if (totalorder < 6) {
-        return alert("You must order 6 items at least.");
-      }
-
-      for (var i = 0; i < products.length; i++) {
-        ncheckbox = 'ch' + i;
-        qinput = 'q' + i;
-        var x = document.getElementById(ncheckbox);
-        if (document.getElementById(ncheckbox).checked) {
-          total = total + Number(document.getElementById(ncheckbox).value)
-            * Number(document.getElementById(qinput).value);
+        else if (bookingSeats[b].id.includes('TLR3') ||
+          bookingSeats[b].id.includes('TRR3') ||
+          bookingSeats[b].id.includes('NLR3') ||
+          bookingSeats[b].id.includes('NRR3')
+          ||
+          bookingSeats[b].id.includes('TLR4') ||
+          bookingSeats[b].id.includes('TRR4') ||
+          bookingSeats[b].id.includes('NLR4') ||
+          bookingSeats[b].id.includes('NRR4')
+          ||
+          bookingSeats[b].id.includes('TLR5') ||
+          bookingSeats[b].id.includes('TRR5') ||
+          bookingSeats[b].id.includes('NLR5') ||
+          bookingSeats[b].id.includes('NRR5')
+        ) {
+          total += 25;
         }
-      }
-      var bookingSeatsList ='';
-      for(b = 0; b<bookingSeats.length;b++){
-        bookingSeatsList+=bookingSeats[b].id+',';
-        if(bookingSeats[b].id.includes('TLR1')||
-        bookingSeats[b].id.includes('TRR1')||
-        bookingSeats[b].id.includes('NLR1')||
-        bookingSeats[b].id.includes('NRR1')
-        ||
-        bookingSeats[b].id.includes('TLR2')||
-        bookingSeats[b].id.includes('TRR2')||
-        bookingSeats[b].id.includes('NLR2')||
-        bookingSeats[b].id.includes('NRR2'))
-        {
-          total+=30;
-        }
-        else if(bookingSeats[b].id.includes('TLR3')||
-        bookingSeats[b].id.includes('TRR3')||
-        bookingSeats[b].id.includes('NLR3')||
-        bookingSeats[b].id.includes('NRR3')
-        ||
-        bookingSeats[b].id.includes('TLR4')||
-        bookingSeats[b].id.includes('TRR4')||
-        bookingSeats[b].id.includes('NLR4')||
-        bookingSeats[b].id.includes('NRR4')
-        ||
-        bookingSeats[b].id.includes('TLR5')||
-        bookingSeats[b].id.includes('TRR5')||
-        bookingSeats[b].id.includes('NLR5')||
-        bookingSeats[b].id.includes('NRR5')
-        )
-        {
-          total +=25;
-        }
-        else{
+        else {
           total += 20;
         }
       }
       const params = new URLSearchParams(window.location.search);
+      const GuestNum = params.get('GuestNum');
       const date = params.get('date');
       const UTCTime = params.get('time');
-      document.getElementsByTagName('a')[0].innerHTML ='Date:'+date+'\nUTCTime:'+UTCTime +'\nbooking Seats:'+bookingSeatsList+ '\nTotal to pay =$' + total;
+      window.location.href='OrderItem.html?GuestNum='+GuestNum+'&date=' + date + '&time=' + UTCTime + '&bookingSeatsList=' + bookingSeatsList + '&total=' + total;
     }
 
-    function myChange(val, qn) {
-      if (document.getElementById('ch' + qn).checked)
-        document.getElementById('q' + qn).value = 1;
-      else document.getElementById('q' + qn).value = 0;
-    }
+ 
   </script>
 </body>
 
