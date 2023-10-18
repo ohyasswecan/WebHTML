@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas Game</title>
-  </head>
-  <body>
-    <canvas id="myCanvas" width="100%" height="100%" style="border: 1px solid black"></canvas>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Canvas Game</title>
+	<!--Css sheet-->
+	<link rel="stylesheet" type="text/css" href="gameStyle.css">
+</head>
+<body>
+	<canvas id="myCanvas"></canvas>
 
-    <script>
-      var c = document.getElementById("myCanvas");
-
-      c.style.width = window.innerWidth + "px";
-      c.style.height = window.innerWidth + "px";
-    </script>
-  </body>
+	<script src="gameScript.js"></script>
+</body>
 </html>
