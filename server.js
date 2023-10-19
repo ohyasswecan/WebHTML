@@ -1,29 +1,25 @@
-const express = require('express');
-const app = express();
-const cors = require('cors'); // Import the cors package
+const http = require('http');
 
-app.use(express.json());
-app.use(cors()); // Enable CORS for all routes
+const hostname = '127.0.0.1';
+const port = 3000;
 
-app.post('/save', (req, res) => {
-  const xmlData = req.body.xmlData; // XML data sent from the client
-  fs.writeFile('Boat.xml', xmlData, (err) => {
-    if (err) {
-      console.error('Error writing to Boat.xml:', err);
-      res.status(500).send('Error writing to Boat.xml');
-    } else {
-      console.log('XML data saved successfully.');
-      res.send('XML data saved successfully.');
-    }
-  });
-
-
-  // Send the PUT request
-  xmlhttp.send('new xml string');
-  res.send('XML data saved successfully.');
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World\n');
 });
 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+const fs = require('fs');
+
+const content = 'new Content';
+
+fs.writeFile('test.txt', content, err => {
+  if (err) {
+    console.error(err);
+  }
+  // file written successfully
 });
 
