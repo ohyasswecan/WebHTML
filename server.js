@@ -67,7 +67,7 @@ const express = require('express');
 const app = express();
 //const port = 3000;
 
-app.get('/summary', (req, res) => {
+app.get('/Summary', (req, res) => {
     // Extract parameters from the URL
     const { GuestNum, date, time, bookingSeatsList, total } = req.query;
 
