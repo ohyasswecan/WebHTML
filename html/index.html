@@ -7,25 +7,28 @@
             border: none;
         }
 
-        .navigatelist {
+        .navigation {
             display: flex;
-            width: 100%;
             justify-content: space-around;
-            align-content: center;
-            border: 1px solid;
+            width: 100%;
             background-color: green;
+            padding: 10px 0;
+        }
+
+        .navigation a {
+            text-decoration: none;
+            color: white;
+            font-size: large;
+            transition: background-color 0.3 ease;
+        }
+
+        .navigation a:hover{
+            background-color: rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
         }
-
-        .navigatebutton {
-            background-color: cornflowerblue;
-            border: none;
-            font-size: large;
-        }
-
         button {
             background-color: rgba(0, 0, 0, 0);
             /* Set background color to transparent */
@@ -42,7 +45,7 @@
         }
 
         body {
-            background-image: url('images/LandScape.jpg');
+            background-image: url('/images/LandScape.jpg');
             background-size: cover;
             background-position: center;
             width: 100vw;
@@ -60,35 +63,15 @@
     <center><button id="title" onclick="changeText()">
             <h1 id="titleText">Wakatipu Boat Adventure</h1>
         </button></center>
-    <div class="navigatelist">
-        <button class="navigatebutton" onclick="changePage(1)">Book Boat</button>
-        <button class="navigatebutton" onclick="changePage(2)">Play Game</button>
-        <button class="navigatebutton" onclick="changePage(3)">Documentation 1</button>
-        <button class="navigatebutton" onclick="changePage(4)">Documentation 2</button>
+    <div class="navigation">
+        <a href="/html/GuestNum.html">Book Boat</a>
+        <a href="/html/Game.html">Play Game</a>
+        <a href="/html/XMLDataDictionary.xml">Documentation 1</a>
+        <a href="/html/documentation.docx">Documentation 2</a>
     </div>
 
 
     <script>
-        function changePage(href) {
-            switch (href) {
-                case 1:
-                    window.location.href = "GuestNum.html";
-                    break;
-                case 2:
-                    window.location.href = "Game.html";
-                    break;
-                case 3:
-                    window.location.href = "XMLDataDictionary.xml";
-                    break;
-                case 4:
-                    window.location.href = "documentation.docx";
-                    break;
-                default:
-                    window.location.href = "BookBoat.html";
-                    break;
-            }
-        }
-
         function changeText() {
             var titleText = document.getElementById('titleText');
             if (titleText.textContent == 'Wakatipu Boat Adventure') {

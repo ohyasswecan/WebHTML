@@ -331,7 +331,7 @@
 
 
       var xmlhttp = new XMLHttpRequest();
-      xmlhttp.open("GET", "Boat.xml", false);
+      xmlhttp.open("GET", "/xml/Boat.xml", false);
       xmlhttp.send();
       xmlDoc = xmlhttp.responseXML;
       // var Boat = xmlDoc.getElementsByTagName("Boat");  root node
@@ -476,7 +476,7 @@
       const GuestNum = params.get('GuestNum');
       const date = params.get('date');
       const UTCTime = params.get('time');
-      window.location.href='OrderItem.html?GuestNum='+GuestNum+'&date=' + date + '&time=' + UTCTime + '&bookingSeatsList=' + bookingSeatsList + '&total=' + total;
+      window.location.href='/html/OrderItem.html?GuestNum='+GuestNum+'&date=' + date + '&time=' + UTCTime + '&bookingSeatsList=' + bookingSeatsList + '&total=' + total;
     }
 
  

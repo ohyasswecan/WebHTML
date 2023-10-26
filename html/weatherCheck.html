@@ -93,10 +93,10 @@
 
 
                     if (temperature > 280 && humidity < 99) {
-                        document.body.style.backgroundImage = 'url("images/Sunny.webp")';
+                        document.body.style.backgroundImage = 'url("/images/Sunny.webp")';
                         return true; // Weather matches the criteria
                     } else {
-                        document.body.style.backgroundImage = 'url("images/cloudy.jpg")';
+                        document.body.style.backgroundImage = 'url("/images/cloudy.jpg")';
                         alert("cloudy");
                         return false; // Weather does not match the criteria
                     }
@@ -112,7 +112,7 @@
                 alert("Nice weather, booking success");
                 const params = new URLSearchParams(window.location.search);
                 const GuestNum = params.get("GuestNum");
-                window.location.href = "BookBoat.html?GuestNum=" + GuestNum + "&date=" + selectedDate + "&time=" + selectedTime;
+                window.location.href = "/html/BookBoat.html?GuestNum=" + GuestNum + "&date=" + selectedDate + "&time=" + selectedTime;
             } else {
                 alert("Weather forecast doesn't match the selected date and time.");
             }
@@ -120,7 +120,7 @@
     </script>
     <style>
         body {
-            background-image: url('images/Sunny.webp');
+            background-image: url('/images/Sunny.webp');
             background-size: cover;
             background-position: center;
             width: 100vw;

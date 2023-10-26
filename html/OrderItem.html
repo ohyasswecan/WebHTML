@@ -3,8 +3,8 @@
 <head>
     <title>Food Ordering</title>
     <style>
-         body {
-            background-image: url('images/Eating.webp');
+        body {
+            background-image: url('/images/Eating.webp');
             background-size: cover;
             background-position: center;
             width: 100vw;
@@ -16,7 +16,7 @@
             justify-content: center;
         }
 
-        table{
+        table {
             color: white;
         }
     </style>
@@ -66,7 +66,7 @@
                 cell1.innerHTML = products[i].productName;
                 cell2.innerHTML = '$' + products[i].price;
                 cell3.innerHTML = products[i].type;
-                cell4.innerHTML = '<img src="images/' + products[i].image + '" />';
+                cell4.innerHTML = '<img src="/images/' + products[i].image + '" />';
                 cell5.innerHTML = products[i].description;
 
 
@@ -104,7 +104,7 @@
             var result = '';
             var ncheckbox = '';
             var qinput = '';
-            var total = 0;
+            var foodcost = 0;
             var totalorder = 0;
             var itemList = '';
             for (var i = 0; i < products.length; i++) {
@@ -133,12 +133,24 @@
                         + 'The item total' + Number(document.getElementById(ncheckbox).value)
                         * Number(document.getElementById(qinput).value) + '\n';
 
-                    total = total + Number(document.getElementById(ncheckbox).value)
+                    foodcost = foodcost + Number(document.getElementById(ncheckbox).value)
                         * Number(document.getElementById(qinput).value);
                 }
             }
-            alert(total);
-            window.location.href="Summary.html";
+            alert(foodcost);
+            pageInsertionRequest(itemList, foodcost);
+        }
+
+        function pageInsertionRequest(itemList, foodcost) {
+            // Make a POST request to the server to process the booking
+            const params = new URLSearchParams(window.location.search);
+            const GuestNum = params.get("GuestNum");
+            const date = params.get("date");
+            const time = params.get("time");
+            const bookingSeatsList = params.get("bookingSeatsList");
+            const total = params.get("total");
+            let totalcost = foodcost + foodcost;
+            window.location.href = `/html/Summary?GuestNum=${GuestNum}&date=${date}&time=${time}&bookingSeatsList=${bookingSeatsList}&total=${total}&itemList=${itemList}&foodcost=${foodcost}&totalcost=${totalcost}`;
         }
     </script>
 </body>
