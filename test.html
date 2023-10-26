@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write to test.xml</title>
+</head>
+
+<body>
+    <h1>Write to test.xml</h1>
+    <textarea id="textContent" placeholder="Enter text to write"></textarea>
+    <button onclick="sendRequest()">Write to test.xml</button>
+
+    <script>
+        async function sendRequest() {
+            const content = document.getElementById('textContent').value;
+            if (content.trim() === '') {
+                alert('Please enter text to write.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/writeToXML', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    },
+                    body: content
+                });
+
+                if (response.ok) {
+                    alert('Content written to test.xml successfully!');
+                } else {
+                    throw new Error('Server Error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error writing to test.xml. Please try again.');
+            }
+        }
+    </script>
+</body>
+
+</html>

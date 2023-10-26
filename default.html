@@ -1,11 +1,13 @@
 <!DOCTYPE html>
+
 <head>
     <title>Menu</title>
     <style>
-        #title{
+        #title {
             border: none;
         }
-        .navigatelist{
+
+        .navigatelist {
             display: flex;
             width: 100%;
             justify-content: space-around;
@@ -13,54 +15,86 @@
             border: 1px solid;
             background-color: green;
         }
-        h1{
+
+        h1 {
             text-align: center;
         }
-       .navigatebutton{
-        background-color:cornflowerblue;
-        border: none;
-       }
-    </style>
-</head>
-<body>
-    <button id="title" onclick="changeText()"><h1 id="titleText">Wakatipu Boat Adventure</h1></button>
-    <div class ="navigatelist">
-        <button class="navigatebutton" onclick="changePage(1)">Book Boat</button>
-        <button class="navigatebutton" onclick="changePage(2)">Play Game</button> 
-        <button class="navigatebutton" onclick="changePage(3)">Documentation 1</button> 
-        <button class="navigatebutton" onclick="changePage(4)">Documentation 2</button></div>
-    <div class="content">Content</div>
 
-    <script>
-        function changePage(href)
-        {
-            switch(href){
-                case 1:
-                    window.location.href="GuestNum.html";
-                break;
-                case 2:
-                    window.location.href="Game.html";
-                    break;
-                case 3:
-                    window.location.href="XMLDataDictionary.xml";
-                    break;
-                case 4:
-                    window.location.href="documentation.docx";
-                break;
-                default:
-                    window.location.href="BookBoat.html";
-                    break;
-            }
-           
+        .navigatebutton {
+            background-color: cornflowerblue;
+            border: none;
+            font-size: large;
         }
 
-        function changeText()
-        {
+        button {
+            background-color: rgba(0, 0, 0, 0);
+            /* Set background color to transparent */
+            border: none;
+            /* Remove border */
+            color: white;
+            /* Set text color to white, or any color you prefer */
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background-image: url('images/LandScape.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body>
+    <center><button id="title" onclick="changeText()">
+            <h1 id="titleText">Wakatipu Boat Adventure</h1>
+        </button></center>
+    <div class="navigatelist">
+        <button class="navigatebutton" onclick="changePage(1)">Book Boat</button>
+        <button class="navigatebutton" onclick="changePage(2)">Play Game</button>
+        <button class="navigatebutton" onclick="changePage(3)">Documentation 1</button>
+        <button class="navigatebutton" onclick="changePage(4)">Documentation 2</button>
+    </div>
+
+
+    <script>
+        function changePage(href) {
+            switch (href) {
+                case 1:
+                    window.location.href = "GuestNum.html";
+                    break;
+                case 2:
+                    window.location.href = "Game.html";
+                    break;
+                case 3:
+                    window.location.href = "XMLDataDictionary.xml";
+                    break;
+                case 4:
+                    window.location.href = "documentation.docx";
+                    break;
+                default:
+                    window.location.href = "BookBoat.html";
+                    break;
+            }
+        }
+
+        function changeText() {
             var titleText = document.getElementById('titleText');
-            if(titleText.textContent =='Wakatipu Boat Adventure'){
+            if (titleText.textContent == 'Wakatipu Boat Adventure') {
                 titleText.textContent = 'Giant Trough Boat Adventure';
             }
-            else{
+            else {
                 titleText.textContent = 'Wakatipu Boat Adventure';
             }
         }

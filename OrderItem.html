@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 
-<head></head>
+<head>
+    <title>Food Ordering</title>
+    <style>
+         body {
+            background-image: url('images/Eating.webp');
+            background-size: cover;
+            background-position: center;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        table{
+            color: white;
+        }
+    </style>
+</head>
 
 <body onload="show_products()">
     <div>
@@ -17,12 +37,12 @@
             this.description = description;
         }
 
-        var prod1 = new product('milk', 5, 'drink', 'gluten free milk', 'milk.jpg');
-        var prod2 = new product('cornflake', 10, 'food', 'contains gluten', 'cornflake.jpg');
-        var prod3 = new product('soda', 2, 'food', 'gluten free', 'soda.jpg');
-        var prod4 = new product('bread', 8, 'food', 'contains gluten', 'bread.jpg');
-        var prod5 = new product('butter', 2, 'additive', 'health rate 2.3 star', 'butter.jpg');
-        var prod6 = new product('agria potatoes', 20, 'food', 'contains gluten', 'agria_potatoes.jpg');
+        var prod1 = new product('Milk', 5, 'drink', 'gluten free milk', 'milk.jpg');
+        var prod2 = new product('Cornflake', 10, 'food', 'contains gluten', 'cornflake.jpg');
+        var prod3 = new product('Soda', 2, 'food', 'gluten free', 'soda.jpg');
+        var prod4 = new product('Bread', 8, 'food', 'contains gluten', 'bread.jpg');
+        var prod5 = new product('Butter', 2, 'additive', 'health rate 2.3 star', 'butter.jpg');
+        var prod6 = new product('Agria Potatoes', 20, 'food', 'contains gluten', 'agria_potatoes.jpg');
         var products = [prod1, prod2, prod3, prod4, prod5, prod6];
 
 
@@ -118,6 +138,7 @@
                 }
             }
             alert(total);
+            window.location.href="Summary.html";
         }
     </script>
 </body>
