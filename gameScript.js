@@ -1,12 +1,12 @@
 const canvas = document.getElementById("myCanvas");
 const ctx = myCanvas.getContext("2d");
 
-const numberOfEnemies = 20;
-const enemyArray = [];
+const numberOfBugs = 0;
+const bugArray = [];
 
 const player = {
 	width: 30,
-	height: 30,
+	height: 60,
 	x: 600,
 	y: 450,
 	speed: 5,
@@ -16,31 +16,44 @@ const player = {
 	dyd: 0
 };
 
-class Enemy {
+class Bug {
 	constructor() {
 		this.x = Math.random() * canvas.width;
-		this.y = Math.random() * canvas.height;
+		this.y = 0;
 		this.width = 10;
 		this.height = 10;
 		this.speed = Math.random() * 2 + 1;
 		this.angle = 0;
 		this.angleSpeed = Math.random() * 0.2;
 		this.curve = Math.random() * 6;
+		this.bugs = [];
+		this.bugTimer = 0;
+		this.bugInterval = 1000;
 	}
 	update() {
 		this.x += this.curve * Math.sin(this.angle);
 		this.y -= this.speed;
 		this.angle += this.angleSpeed;
 		if(this.y + this.height < 0) this.y = canvas.height;
+		if(this.x + this.width < 0) this.x = canvas.width;
+		
+		if (this.bugTimer > this.bugInterval)	{
+			this.addBug();
+			this.bugTimer = 0;
+		}
 	}
 	
 	draw() {
 		ctx.strokeRect(this.x, this.y, this.width, this.height);
 	}
+	
+	addBug() {
+		this.bugs.push(new Bug());
+	}
 }
 
-for (let i = 0; i < numberOfEnemies; i++) {
-	enemyArray.push(new Enemy());
+for (let i = 0; i < numberOfBugs; i++) {
+	bugArray.push(new Bug());
 }
 
 function drawPlayer() {
@@ -89,9 +102,9 @@ function update() {
 	
 	newPos();
 	
-	enemyArray.forEach(enemy => {
-		enemy.update();
-		enemy.draw();
+	bugArray.forEach(bug => {
+		bug.update();
+		bug.draw();
 	});
 	
 	requestAnimationFrame(update);
