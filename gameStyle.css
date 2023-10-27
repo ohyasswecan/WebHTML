@@ -10,9 +10,11 @@ html, body {
 }
 
 canvas {
-	background-color: green;
-	/*width: 1200px;
-	height: 600px;*/
+	background-color: #68DBAA;
+	/*
+	width: 1200px;
+	height: 600px;
+	*/
 	border: 1px solid blue;
 	display: block;
 }

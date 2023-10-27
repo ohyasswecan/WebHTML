@@ -1,45 +1,43 @@
-(function() {
-var player;
+const canvas = document.getElementById("myCanvas");
+const ctx = myCanvas.getContext("2d");
 
-function startGame() {
-	player = new component(30, 30, "red", 225, 225);
+let x = 600;
+let y = 450;
+let vxl = 0;
+let vxr = 0;
+let vyu = 0;
+let vyd = 0;
+
+function update() {
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	x += vxl;
+	x += vxr;
+	y += vyu;
+	y += vyd;
+	ctx.fillRect(x, y, 30, 30);
+	requestAnimationFrame(update);
 }
+update();
 
+addEventListener("keydown", function(e){
+	if (e.code == "KeyD" || e.code == "ArrowRight")
+		vxr = 5;
+	if (e.code == "KeyA" || e.code == "ArrowLeft")
+		vxl = -5;
+	if (e.code == "KeyW" || e.code == "ArrowUp")
+		vyu = -5;
+	if (e.code == "KeyS" || e.code == "ArrowDown")
+		vyd = 5;
+})
 
-var canvas = document.getElementById("myCanvas");
-var context = canvas.getContext('2d');
-
-window.addEventListener('resize', resizeCanvas, false);
-
-function resizeCanvas() {
-	canvas.width = document.body.clientWidth - 50;
-	canvas.height = document.body.clientHeight - 50;
+addEventListener("keyup", function(e){
+	if (e.code == "KeyD" || e.code == "ArrowRight")
+		vxr = 0;
+	if (e.code == "KeyA" || e.code == "ArrowLeft")
+		vxl = 0;
+	if (e.code == "KeyW" || e.code == "ArrowUp")
+		vyu = 0;
+	if (e.code == "KeyS" || e.code == "ArrowDown")
+		vyd = 0;
 	
-	//drawing goes inside this function
-	// vvvvvv
-	draw();
-}	
-resizeCanvas();
-
-function component(width, height, color, x, y) {
-	this.width = width;
-	this.height = height;
-	this.x = x;
-	this.y = y;
-	context = canvas.context;
-	context.fillStyle = color;
-	context.fillRect(this.x, this.y, this.width, this.height);
-}
-function draw() {
-	context.beginPath();
-	context.fillStyle = "blue";
-	context.fillRect(20, 20, 150, 100);
-	context.fillStyle = "red";
-	context.fillRect(200, 50, 100, 100);
-	context.fillRect((canvas.width / 2) - 50, 75, 100, 100);
-	context.stroke();
-	context.closePath();
-	
-}
-
-})();
+})
