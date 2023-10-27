@@ -21,19 +21,27 @@
       align-items: center;
       justify-content: center;
     }
+
+    .button-container {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 
 <body>
   <script>
 
+
     var myGamePiece;
+    var hitBar;//hit to destroy
     var myObstacles = [];
-    // var myObstacle;
 
     function startGame() {
-      myGamePiece = new component(30, 30, "red", 390, 230);
-      //  myObstacle = new component(10, 10, "green", 300, 450);
+      myGamePiece = new component(30, 30, "red", 390, 195);
+      hitBar = new component(40, 10, "black", 400, 195);
       myGameArea.start();
     }
 
@@ -44,7 +52,7 @@
         this.canvas.height = 450;
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.framNo = 0;
+        this.frameNo = 0;
         document.addEventListener('keydown', doKeyDown, true);
         document.addEventListener('keyup', doKeyUp, true);
         this.interval = setInterval(updateGameArea, 20);
@@ -55,11 +63,6 @@
       stop: function () {
         clearInterval(this.interval);
       }
-    }
-
-    function everyinterval(n) {
-      if ((myGameArea.frameNo / n) % 1 == 0) { return true; }
-      return false;
     }
 
     function component(width, height, color, x, y) {
@@ -78,7 +81,6 @@
         this.x += this.speedX;
         this.y += this.speedY;
       }
-
       this.crashWith = function (otherobj) {
         var myleft = this.x;
         var myright = this.x + (this.width);
@@ -107,19 +109,23 @@
       myGameArea.clear();
       myGameArea.frameNo += 1;
       if (myGameArea.frameNo == 1 || everyinterval(150)) {
-        //obstacle generation
-        //  x = Math.floor(Math.random() * (myGameArea.canvas.width - 50));
-        // y = myGameArea.canvas.height;
-        //  y = 0;
-        myObstacles.push(new component(300, 300, "green", 50, 50));
+        x = Math.floor(Math.random() * (myGameArea.canvas.width - 50));
+        y = myGameArea.canvas.height; // Start the obstacles from the top of the canvas
+        myObstacles.push(new component(30, 30, "yellow", x, y));
       }
       for (i = 0; i < myObstacles.length; i += 1) {
-        myObstacles[i].y += 1;
-        console.log(myObstacles[i].y)
+        myObstacles[i].y -= 1;
         myObstacles[i].update();
       }
       myGamePiece.newPos();
       myGamePiece.update();
+      hitBar.newPos();
+      hitBar.update();
+    }
+
+    function everyinterval(n) {
+      if ((myGameArea.frameNo / n) % 1 == 0) { return true; }
+      return false;
     }
 
     function doKeyDown(e) {
@@ -149,35 +155,46 @@
         case 37: // Left Arrow
         case 39: // Right Arrow
           myGamePiece.speedX = 0; //Horizontal speed clear
+          hitBar.speedX = 0;
           break;
         case 38: // Up Arrow
         case 40: // Down Arrow
           myGamePiece.speedY = 0; //Vertical speed clear
+          hitBar.speedY = 0;
           break;
       }
     }
 
     function moveup() {
       myGamePiece.speedY = -1;
+      hitBar.speedY = -1;
     }
 
     function movedown() {
       myGamePiece.speedY = 1;
+      hitBar.speedY = 1;
     }
 
     function moveleft() {
       myGamePiece.speedX = -1;
+      hitBar.speedX = -1;
     }
 
     function moveright() {
       myGamePiece.speedX = 1;
+      hitBar.speedX = 1;
     }
-   
+
 
     window.onload = function () {
       startGame();
     };
   </script>
+  <div class="button-container">
+    <button id="startBtn">Start</button>
+    <button id="pauseBtn">Pause</button>
+    <input type="range" id="volumeControl" min="0" max="100" value="50">
+  </div>
 </body>
 
 </html>

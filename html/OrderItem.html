@@ -125,13 +125,13 @@
                 qinput = 'q' + i;
                 var x = document.getElementById(ncheckbox);
                 if (document.getElementById(ncheckbox).checked) {
-                    itemList = itemList + '\n' +
+                    itemList = itemList + ',' +
                         products[i].productName +
-                        ': \n' + products[i].type + ','
+                        ', ' + products[i].type + ','
                         + 'Unit price: ' + products[i].price + ','
                         + 'Quantity: ' + Number(document.getElementById(qinput).value)
                         + 'The item total' + Number(document.getElementById(ncheckbox).value)
-                        * Number(document.getElementById(qinput).value) + '\n';
+                        * Number(document.getElementById(qinput).value) + ',';
 
                     foodcost = foodcost + Number(document.getElementById(ncheckbox).value)
                         * Number(document.getElementById(qinput).value);
@@ -143,6 +143,7 @@
 
         function pageInsertionRequest(itemList, foodcost) {
             // Make a POST request to the server to process the booking
+            
             const params = new URLSearchParams(window.location.search);
             const GuestNum = params.get("GuestNum");
             const date = params.get("date");
@@ -150,7 +151,8 @@
             const bookingSeatsList = params.get("bookingSeatsList");
             const total = params.get("total");
             let totalcost = foodcost + foodcost;
-            window.location.href = `/html/Summary.html?GuestNum=${GuestNum}&date=${date}&time=${time}&bookingSeatsList=${bookingSeatsList}&total=${total}&itemList=${itemList}&foodcost=${foodcost}&totalcost=${totalcost}`;
+            //Don't add .html after Summary!!!! because server won't recognise the address!!!!
+            window.location.href = `/html/Summary?GuestNum=${GuestNum}&date=${date}&time=${time}&bookingSeatsList=${bookingSeatsList}&total=${total}&itemList=${itemList}&foodcost=${foodcost}&totalcost=${totalcost}`;
         }
     </script>
 </body>
